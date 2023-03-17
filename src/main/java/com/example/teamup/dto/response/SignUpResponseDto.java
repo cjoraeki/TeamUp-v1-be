@@ -1,4 +1,4 @@
-package com.example.teamup.dto;
+package com.example.teamup.dto.response;
 
 
 import lombok.AllArgsConstructor;
