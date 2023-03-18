@@ -33,7 +33,6 @@ public class SignUpRequestDto {
     @NotNull(message = "Password cannot be blank")
     @Schema(defaultValue = "12345678")
     private String password;
-    private Gender gender;
     private String validOTP;
     private String tokenForEmail;
     private String favoriteSports;

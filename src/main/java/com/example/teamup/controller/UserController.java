@@ -1,6 +1,7 @@
 package com.example.teamup.controller;
 
 import com.example.teamup.dto.request.*;
+import com.example.teamup.dto.response.SignUpResponseDto;
 import com.example.teamup.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -19,9 +20,9 @@ public class UserController {
     private final UserService userService;
 
     @PostMapping("/signup")
-    public ResponseEntity<String> signUpToTeamUp(@Valid @RequestBody SignUpRequestDto requestDto){
-        userService.signUpWithEmail(requestDto);
-        return new ResponseEntity<>("Registration Successful! Check your mail for activation link", HttpStatus.CREATED);
+    public ResponseEntity<SignUpResponseDto> signUpToTeamUp(@Valid @RequestBody SignUpRequestDto requestDto){
+        SignUpResponseDto signUpResponseDto = userService.signUpWithEmail(requestDto);
+        return new ResponseEntity<>(signUpResponseDto, HttpStatus.CREATED);
     }
 
     @PostMapping("/verify-token")

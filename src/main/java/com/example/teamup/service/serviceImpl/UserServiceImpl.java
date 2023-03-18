@@ -66,23 +66,23 @@ public class UserServiceImpl implements UserService {
         user.setPhoneNumber(signUpRequestDto.getPhoneNumber());
         user.setPassword(passwordEncoder.encode(signUpRequestDto.getPassword()));
         user.setRole(Role.USER);
-        user.setUsername(signUpRequestDto.getUsername());
-        user.setGender(signUpRequestDto.getGender());
+        user.setUsername(signUpRequestDto.getEmail().substring(0,signUpRequestDto.getEmail().indexOf('@')));
         user.setVerificationStatus(false);
         user.setFavoriteSports(signUpRequestDto.getFavoriteSports());
 
         String validToken = jwtUtil.generateEmailVerificationToken(user.getEmail());
 
-        String url = "https://" + request.getServerName() + ":3000" + "/verifyRegistration?token="
-                + validToken + "&email=" + user.getEmail();
+        String url = "https://" + request.getServerName() + ":3000" + "/otp?token="
+                + validToken;
 
-        String subject = "Verify email address";
+        String subject = "Verify your email address";
 
         String message =
                 "<html> " +
                     "<body>" +
                         "<h4>Hi " + user.getFirstName() + " " + user.getLastName() +",</h4> \n" +
-                        "<p>To activate your TeamUp Account, please verify your email address by clicking " +
+                        "<p>Welcome to TeamUp Sports.\n" +
+                        "To activate your TeamUp Account, verify your email address by clicking " +
                         "<a href="+url+">VERIFY</a></p>" +
                     "</body> " +
                 "</html>";
@@ -118,11 +118,12 @@ public class UserServiceImpl implements UserService {
     public String verifyOTP(OTPRequest otpRequest) {
         User user = userRepository.findByEmail(otpRequest.getEmailForOTP()).get();
         if (user.isVerificationStatus()){
-            throw new AlreadyExistsException("This account is already verified", "Go to login");
+            return "This account is already verified";
         }
 
         if (passwordEncoder.matches(otpRequest.getOtp(), user.getValidOTP())){
             user.setVerificationStatus(true);
+            userRepository.save(user);
             return "Verification successful";
         }else {
             return "Check the OTP and try again";

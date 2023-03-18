@@ -41,8 +41,8 @@ public class User extends BaseEntity{
     @Column(unique = true)
     private String uuid;
 
-    @Enumerated(EnumType.STRING)
-    private Gender gender;
+//    @Enumerated(EnumType.STRING)
+//    private Gender gender;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
