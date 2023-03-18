@@ -96,17 +96,17 @@ public class UserServiceImpl implements UserService {
         userRepository.save(user);
 
 
-        Twilio.init(ACCOUNT_SID, AUTH_TOKEN);
+//        Twilio.init(ACCOUNT_SID, AUTH_TOKEN);
 
-        int len = signUpRequestDto.getPhoneNumber().length();
-        String p = "+234"+signUpRequestDto.getPhoneNumber().substring(1,len);
+//        int len = signUpRequestDto.getPhoneNumber().length();
+//        String p = "+234"+signUpRequestDto.getPhoneNumber().substring(1,len);
+//
+//        Message messagePhone = Message.creator(new PhoneNumber(p),
+//                new PhoneNumber("+15074287075"),
+//                "Your OTP for TeamUp account is: " + validOTP + ". \nIt expires in 15 minutes.\n").create();
 
-        Message messagePhone = Message.creator(new PhoneNumber(p),
-                new PhoneNumber("+15074287075"),
-                "Your OTP for TeamUp account is: " + validOTP + ". \nIt expires in 15 minutes.\n").create();
-
-        System.out.println(messagePhone.getSid());
-        System.out.println("Twilio++++++++"+"+234"+ p);
+//        System.out.println(messagePhone.getSid());
+//        System.out.println("Twilio++++++++"+"+234"+ p);
 
         SignUpResponseDto signUpResponseDto = new SignUpResponseDto();
         BeanUtils.copyProperties(user, signUpResponseDto);
