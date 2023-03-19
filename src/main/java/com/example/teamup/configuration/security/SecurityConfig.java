@@ -5,7 +5,6 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.core.Ordered;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
@@ -22,7 +21,6 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
 
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -37,8 +35,6 @@ public class SecurityConfig {
     private final String path = "/api/v1";
 
     private final String[] AUTH_WHITELIST = {
-            path + "/signup",
-            path + "/hello",
             "/api/v1/**",
             "/v3/api-docs/**",
             "/configuration/**",
@@ -92,7 +88,6 @@ public class SecurityConfig {
         config.setAllowedOrigins(Collections.singletonList("http://localhost:3000"));
         config.setAllowedMethods(List.of("GET", "POST", "PUT", "PATCH"));
         config.setAllowedHeaders(Collections.singletonList("*"));
-        // configure CORS settings
         source.registerCorsConfiguration("/**", config);
         return new CorsFilter(source);
     }

@@ -23,7 +23,7 @@ public class User extends BaseEntity{
     @Column(nullable = false, length = 50)
     private String LastName;
 
-//    private String profilePic;
+//    private String image;
 
     @NotNull(message = "Phone number cannot be empty")
     @Column(nullable = false, unique = true)

@@ -7,17 +7,11 @@ import com.example.teamup.dto.response.TokenResponseDto;
 import com.example.teamup.dto.response.SignUpResponseDto;
 import com.example.teamup.entity.User;
 import com.example.teamup.enums.Role;
-import com.example.teamup.exception.AlreadyExistsException;
-import com.example.teamup.exception.AuthenticationException;
-import com.example.teamup.exception.UserNotFoundException;
-import com.example.teamup.exception.ValidationException;
+import com.example.teamup.exception.*;
 import com.example.teamup.repository.UserRepository;
 import com.example.teamup.service.UserService;
 import com.example.teamup.utils.AppUtil;
 import com.example.teamup.utils.AuthDetails;
-import com.twilio.Twilio;
-import com.twilio.rest.api.v2010.account.Message;
-import com.twilio.type.PhoneNumber;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -31,7 +25,9 @@ import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
-import java.util.Date;
+
+//import static com.example.teamup.enums.TokenStatus.ACTIVE;
+//import static com.example.teamup.enums.TokenStatus.EXPIRED;
 
 
 @Service
@@ -46,10 +42,11 @@ public class UserServiceImpl implements UserService {
     private final JavaMailServiceImpl javaMailService;
     private final AppUserDetailsService appUserDetailsService;
     private final HttpServletRequest request;
+//    private final TokenRepository tokenRepository;
     private final Logger logger = LoggerFactory.getLogger(UserServiceImpl.class);
     private final PasswordEncoder passwordEncoder;
-    public static final String ACCOUNT_SID = "ACcf214dcd245e4bd8112c8d38dc499064";
-    public static final String AUTH_TOKEN = "64469ea18feac687619a4b6fd69721e9";
+//    public static final String ACCOUNT_SID = "ACcf214dcd245e4bd8112c8d38dc499064";
+//    public static final String AUTH_TOKEN = "64469ea18feac687619a4b6fd69721e9";
 
 
     @Override
@@ -71,9 +68,10 @@ public class UserServiceImpl implements UserService {
         user.setFavoriteSports(signUpRequestDto.getFavoriteSports());
 
         String validToken = jwtUtil.generateEmailVerificationToken(user.getEmail());
+        user.setTokenForEmail(validToken);
 
-        String url = "https://" + request.getServerName() + ":3000" + "/otp?token="
-                + validToken;
+        String url = "http://" + request.getServerName() + ":8080" + "/api/v1/verify-email?token="
+                + validToken + "&email="+ signUpRequestDto.getEmail();
 
         String subject = "Verify your email address";
 
@@ -83,13 +81,14 @@ public class UserServiceImpl implements UserService {
                         "<h4>Hi " + user.getFirstName() + " " + user.getLastName() +",</h4> \n" +
                         "<p>Welcome to TeamUp Sports.\n" +
                         "To activate your TeamUp Account, verify your email address by clicking " +
-                        "<a href="+url+">VERIFY</a></p>" +
+                        "<a href="+url+">verify</a></p>" +
                     "</body> " +
                 "</html>";
 
         javaMailService.sendMailAlt(signUpRequestDto.getEmail(), subject, message);
 
-        String validOTP = (jwtUtil.generateOTPToken());
+//        String validOTP = (jwtUtil.generateOTPToken());
+        String validOTP = "12345";
 
         user.setValidOTP(passwordEncoder.encode(validOTP));
 
@@ -152,6 +151,12 @@ public class UserServiceImpl implements UserService {
                 String accessToken = jwtUtil.generateToken(userDetails);
                 return TokenResponseDto.builder()
                         .token(accessToken)
+                        .firstName(user.getFirstName())
+                        .LastName(user.getLastName())
+                        .favoriteSports(user.getFavoriteSports())
+                        .email(user.getEmail())
+                        .username(user.getUsername())
+                        .phoneNumber(user.getPhoneNumber())
                         .build();
 
                 } else {
@@ -210,5 +215,22 @@ public class UserServiceImpl implements UserService {
         return "Username changed";
     }
 
+    @Override
+    public String fetchUsername() {
+        return authDetails.getAuthorizedUser().getUsername();
+    }
 
+    @Override
+    public String verifyEmail(String email, String token) {
+        User user = userRepository.findByEmail(email).get();
+
+        if (user.isVerificationStatus()) {
+            return "This account is already verified";
+        }
+
+        if (token.equals(user.getTokenForEmail())) {
+            return "Email verified. Enter OTP to verify phone number";
+        }
+        return "Invalid token";
+    }
 }
