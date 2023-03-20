@@ -4,7 +4,6 @@ import com.example.teamup.dto.request.*;
 import com.example.teamup.dto.response.TokenResponseDto;
 import com.example.teamup.dto.response.SignUpResponseDto;
 
-import java.io.IOException;
 
 public interface UserService {
 

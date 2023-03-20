@@ -90,27 +90,11 @@ public class JwtUtil {
     }
 
     public String generateOTPToken() {
-//        Date now = new Date();
-//        Date expiryDate = new Date(now.getTime() + EXPIRATION_TIME);
+        Date now = new Date();
+        Date expiryDate = new Date(now.getTime() + EXPIRATION_TIME);
         Integer tokenValue = (int)(Math.random() * 90000) + 10000; // generates a random 5-digit number
 
         return tokenValue.toString();
     }
 
-//    public Boolean validateToken(String token, UserDetails userDetails) {
-//        final String username = extractUsername(token);
-//        if (memStorage.keyExist("Blacklist")) {
-//            String[] blacklistTokens = memStorage.getValueByKey("Blacklist").split(" ,");
-//            Set<String> blacklists = Arrays.stream(blacklistTokens).collect(Collectors.toSet());
-//            if (blacklists.contains(token)) {
-//                return false;
-//            }
-//        }
-
-//        return (username.equals(userDetails.getUsername()) && !isTokenExpired(token));
-//    }
-
-//    private int validOTP(int token){
-//
-//    }
 }

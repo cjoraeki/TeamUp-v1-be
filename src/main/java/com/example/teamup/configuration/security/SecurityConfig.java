@@ -100,34 +100,4 @@ public class SecurityConfig {
         return registration;
     }
 
-
-//    @Bean
-//    CorsConfigurationSource corsConfigurationSource() {
-//        CorsConfiguration configuration = new CorsConfiguration();
-//        configuration.setAllowCredentials(true);
-//        configuration.setAllowedOrigins(Collections.singletonList("http://localhost:3000"));
-//        configuration.setAllowedMethods(Collections.singletonList("GET"));
-//        configuration.setAllowedHeaders(Collections.singletonList("*"));
-//        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-//        source.registerCorsConfiguration("/**", configuration);
-//        return source;
-//    }
-
-
-//    @Bean
-//    public FilterRegistrationBean<CorsFilter> corsFilter(){
-//        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-//
-//        CorsConfiguration corsConfiguration = new CorsConfiguration();
-//        corsConfiguration.setAllowCredentials(true);
-//        corsConfiguration.addAllowedHeader("*");
-//        corsConfiguration.addAllowedOrigin("http://localhost:3000");
-//        corsConfiguration.setAllowedMethods(Arrays.asList("GET", "PUT", "UPDATE", "DELETE"));
-//        corsConfiguration.setMaxAge(3600L);
-//        source.registerCorsConfiguration("/**", corsConfiguration);
-//
-//        FilterRegistrationBean<CorsFilter> bean = new FilterRegistrationBean<>(new CorsFilter(source));
-//        bean.setOrder(Ordered.HIGHEST_PRECEDENCE);
-//        return bean;
-//    }
 }

@@ -10,5 +10,4 @@ import lombok.*;
 @AllArgsConstructor
 public class UpdateUsernameDto {
     private String username;
-//    private String email;
 }

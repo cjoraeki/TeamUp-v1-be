@@ -1,7 +1,5 @@
 package com.example.teamup.dto.request;
 
-import com.example.teamup.enums.Gender;
-import com.example.teamup.enums.Role;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;

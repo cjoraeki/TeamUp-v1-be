@@ -25,8 +25,6 @@ import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;
 
-//import static com.example.teamup.enums.TokenStatus.ACTIVE;
-//import static com.example.teamup.enums.TokenStatus.EXPIRED;
 
 
 @Service
@@ -43,8 +41,6 @@ public class UserServiceImpl implements UserService {
     private final HttpServletRequest request;
     private final Logger logger = LoggerFactory.getLogger(UserServiceImpl.class);
     private final PasswordEncoder passwordEncoder;
-//    public static final String ACCOUNT_SID = "ACcf214dcd245e4bd8112c8d38dc499064";
-//    public static final String AUTH_TOKEN = "64469ea18feac687619a4b6fd69721e9";
 
 
     @Override
@@ -198,10 +194,8 @@ public class UserServiceImpl implements UserService {
         }
 
         user.setUsername(updateUsernameDto.getUsername() != null? updateUsernameDto.getUsername() : user.getUsername());
-//        user.setEmail(updateUsernameDto.getEmail() != null? updateUsernameDto.getEmail() : user.getEmail());
         userRepository.save(user);
         return TokenResponseDto.builder()
-//                .token(accessToken)
                 .firstName(user.getFirstName())
                 .LastName(user.getLastName())
                 .favoriteSports(user.getFavoriteSports())
