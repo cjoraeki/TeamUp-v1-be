@@ -1,11 +1,14 @@
 package com.example.teamup.dto.request;
 
 
-import lombok.Getter;
-import lombok.Setter;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import lombok.*;
 
-@Setter
-@Getter
+@Data
+@JsonIgnoreProperties(ignoreUnknown = true)
+@NoArgsConstructor
+@AllArgsConstructor
 public class UpdateUsernameDto {
-    private String newUsername;
+    private String username;
+//    private String email;
 }

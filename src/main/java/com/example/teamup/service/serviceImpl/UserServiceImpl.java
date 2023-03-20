@@ -24,7 +24,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;
-import java.io.IOException;
 
 //import static com.example.teamup.enums.TokenStatus.ACTIVE;
 //import static com.example.teamup.enums.TokenStatus.EXPIRED;
@@ -42,7 +41,6 @@ public class UserServiceImpl implements UserService {
     private final JavaMailServiceImpl javaMailService;
     private final AppUserDetailsService appUserDetailsService;
     private final HttpServletRequest request;
-//    private final TokenRepository tokenRepository;
     private final Logger logger = LoggerFactory.getLogger(UserServiceImpl.class);
     private final PasswordEncoder passwordEncoder;
 //    public static final String ACCOUNT_SID = "ACcf214dcd245e4bd8112c8d38dc499064";
@@ -157,6 +155,7 @@ public class UserServiceImpl implements UserService {
                         .email(user.getEmail())
                         .username(user.getUsername())
                         .phoneNumber(user.getPhoneNumber())
+                        .verificationStatus(true)
                         .build();
 
                 } else {
@@ -169,23 +168,10 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public String forgotPassword(ForgotPasswordDto forgotRequest) throws IOException {
-
-        User person = userRepository.findByEmail(forgotRequest.getEmail())
-                .orElseThrow(() -> new UserNotFoundException("This User does not exist."));
-
-        String tokenGenerated = jwtUtil.generateToken(appUserDetailsService.loadUserByUsername(person.getEmail()));
-
-        javaMailService.sendMail(forgotRequest.getEmail(), "This is a request to reset your password",
-                "This is your reset link which expires in 15 minutes: http://localhost:3000/reset-password/" + tokenGenerated);
-
-        return "Kindly, check your email for password reset instructions!";
-    }
-
-    @Override
     public String changePassword(NewPasswordDto newPasswordDto) {
         User user = userRepository.findByEmail(newPasswordDto.getNewEmail())
                 .orElseThrow(() -> new UserNotFoundException("This User does not exist."));
+
 
         user.setPassword(newPasswordDto.getNewPassword());
         userRepository.save(user);
@@ -205,14 +191,25 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public String updateUsername(UpdateUsernameDto updateUsernameDto) {
+    public TokenResponseDto updateProfile(UpdateUsernameDto updateUsernameDto) {
         User user = authDetails.getAuthorizedUser();
         if (user==null){
             throw new UserNotFoundException("User not logged in", "Login to continue");
         }
-        user.setUsername(updateUsernameDto.getNewUsername());
+
+        user.setUsername(updateUsernameDto.getUsername() != null? updateUsernameDto.getUsername() : user.getUsername());
+//        user.setEmail(updateUsernameDto.getEmail() != null? updateUsernameDto.getEmail() : user.getEmail());
         userRepository.save(user);
-        return "Username changed";
+        return TokenResponseDto.builder()
+//                .token(accessToken)
+                .firstName(user.getFirstName())
+                .LastName(user.getLastName())
+                .favoriteSports(user.getFavoriteSports())
+                .email(user.getEmail())
+                .username(user.getUsername())
+                .phoneNumber(user.getPhoneNumber())
+                .verificationStatus(true)
+                .build();
     }
 
     @Override

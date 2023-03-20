@@ -38,12 +38,6 @@ public class UserController {
         return new ResponseEntity<>(tokenResponseDto, HttpStatus.OK);
     }
 
-    @PostMapping("/forgot-password")
-    public ResponseEntity<String> userForgotPassword(@Valid @RequestBody ForgotPasswordDto forgotPasswordDto) throws IOException {
-        userService.forgotPassword(forgotPasswordDto);
-        return new ResponseEntity<>("Check your email to change password", HttpStatus.OK);
-    }
-
     @PatchMapping("/change-password")
     public ResponseEntity<String> userToChangePassword(@Valid @RequestBody NewPasswordDto newPasswordDto) {
         userService.changePassword(newPasswordDto);
@@ -56,10 +50,10 @@ public class UserController {
         return new ResponseEntity<>("Updated password successfully", HttpStatus.ACCEPTED);
     }
 
-    @PatchMapping("/update-username")
-    public ResponseEntity<String> userToChangeUsername(@Valid @RequestBody UpdateUsernameDto updateUsernameDto){
-        userService.updateUsername(updateUsernameDto);
-        return new ResponseEntity<>("Updated username successfully", HttpStatus.ACCEPTED);
+    @PatchMapping("/update-profile")
+    public ResponseEntity<String> userChangeProfile( @RequestBody UpdateUsernameDto updateUsernameDto){
+        userService.updateProfile(updateUsernameDto);
+        return new ResponseEntity<>("Updated username successfully", HttpStatus.OK);
     }
 
     @GetMapping("/fetch-username")
