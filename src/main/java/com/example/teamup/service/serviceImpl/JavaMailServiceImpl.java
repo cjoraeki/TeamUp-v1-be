@@ -92,8 +92,6 @@ public class JavaMailServiceImpl implements JavaMailService {
         if (!isValidEmail(receiverEmail))
             new ResponseEntity<>("Email is not valid", HttpStatus.BAD_REQUEST);
 
-//        isEmailDomainValid(receiverEmail);
-
         MimeMessagePreparator messagePreparator = mimeMessage -> {
             MimeMessageHelper message = new MimeMessageHelper(mimeMessage, true, "UTF-8");
             message.setFrom("teamupforsports@gmail.com");
