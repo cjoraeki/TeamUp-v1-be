@@ -37,6 +37,9 @@ public class User extends BaseEntity{
 
     private boolean verificationStatus;
 
+    @Column(unique = true)
+    private String uuid;
+
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)

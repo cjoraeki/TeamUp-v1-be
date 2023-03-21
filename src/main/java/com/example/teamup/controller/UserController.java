@@ -63,7 +63,6 @@ public class UserController {
     @GetMapping("/verify-email")
     public RedirectView verifyEmailOfNewUser(@Valid @RequestParam String token, @Valid @RequestParam String email){
         String verificationResult = userService.verifyEmail(email, token);
-        System.out.println(verificationResult +" =============");
 
         if (verificationResult.equals("Email verified. Enter OTP to verify phone number")) {
             System.out.println("Redirecting page here +++++");
