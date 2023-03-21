@@ -1,6 +1,5 @@
 package com.example.teamup.entity;
 
-import com.example.teamup.enums.Gender;
 import com.example.teamup.enums.Role;
 import lombok.*;
 
@@ -21,7 +20,7 @@ public class User extends BaseEntity{
 
     @NotNull(message = "Lastname cannot be empty")
     @Column(nullable = false, length = 50)
-    private String LastName;
+    private String lastName;
 
 //    private String image;
 
@@ -38,11 +37,6 @@ public class User extends BaseEntity{
 
     private boolean verificationStatus;
 
-    @Column(unique = true)
-    private String uuid;
-
-//    @Enumerated(EnumType.STRING)
-//    private Gender gender;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
