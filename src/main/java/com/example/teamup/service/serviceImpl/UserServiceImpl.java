@@ -46,9 +46,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public SignUpResponseDto signUpWithEmail(SignUpRequestDto signUpRequestDto) {
         Boolean emailExist = userRepository.existsByEmail(signUpRequestDto.getEmail());
-        if (emailExist){
-            throw new AlreadyExistsException("Email already exists", "Login to your account");
-        }
+        if (emailExist) throw new AlreadyExistsException("Email already exists", "Login to your account");
 
         User user = new User();
         user.setFirstName(signUpRequestDto.getFirstName());

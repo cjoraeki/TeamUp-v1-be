@@ -10,7 +10,6 @@ public class AuthenticationException extends RuntimeException{
     private String debugMessage;
 
     public AuthenticationException(String message) {
-
         super(message);
     }
 

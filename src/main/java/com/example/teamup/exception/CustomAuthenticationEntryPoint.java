@@ -1,27 +1,22 @@
 package com.example.teamup.exception;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.web.AuthenticationEntryPoint;
-import org.springframework.stereotype.Component;
-import org.springframework.web.servlet.HandlerExceptionResolver;
+import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
+@Setter
+@Getter
+public class CustomAuthenticationEntryPoint extends RuntimeException{
 
+    private String debugMessage;
 
-@Component("customAuthenticationEntryPoint")
-public class CustomAuthenticationEntryPoint extends Throwable implements AuthenticationEntryPoint {
+    public CustomAuthenticationEntryPoint(String message) {
 
-    @Autowired
-    @Qualifier("handlerExceptionResolver")
-    private HandlerExceptionResolver resolver;
+        super(message);
+    }
 
-    @Override
-    public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) throws IOException, ServletException {
-        resolver.resolveException(request, response, null, authException);
+    public CustomAuthenticationEntryPoint(String message, String debugMessage) {
+        super(message);
+        this.debugMessage = debugMessage;
     }
 }
