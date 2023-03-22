@@ -18,6 +18,7 @@ import javax.validation.constraints.NotNull;
 public class LoginRequestDto {
     @Schema(defaultValue = "cjoraeki3@gmail.com")
     @Email(message = "Enter a valid email or phone number")
+
     private String email;
 
     @Schema(defaultValue = "1234")

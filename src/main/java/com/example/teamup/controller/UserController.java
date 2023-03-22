@@ -22,8 +22,7 @@ public class UserController {
 
     @PostMapping("/signup")
     public ResponseEntity<SignUpResponseDto> signUpToTeamUp(@Valid @RequestBody SignUpRequestDto requestDto){
-        SignUpResponseDto signUpResponseDto = userService.signUpWithEmail(requestDto);
-        return new ResponseEntity<>(signUpResponseDto, HttpStatus.valueOf(201));
+        return new ResponseEntity<>(userService.signUpWithEmail(requestDto), HttpStatus.valueOf(201));
     }
 
     @PostMapping("/verify-otp")
