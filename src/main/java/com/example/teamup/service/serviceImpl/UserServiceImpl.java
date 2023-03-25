@@ -187,12 +187,19 @@ public class UserServiceImpl implements UserService {
     @Override
     public TokenResponseDto updateProfile(UpdateUsernameDto updateUsernameDto) {
         User user = authDetails.getAuthorizedUser();
-        if (user==null){
-            throw new UserNotFoundException("User not logged in", "Login to continue");
+        if (user == null) {
+            throw new UserNotFoundException("User not logged in", "Please log in to continue.");
+        }
+        if (updateUsernameDto == null || updateUsernameDto.getUsername() == null || updateUsernameDto.getUsername().isEmpty()) {
+            throw new InvalidInputException("Invalid input", "Please provide a valid username.");
+        }
+        if (userRepository.existsByEmail(updateUsernameDto.getUsername())) {
+            throw new AlreadyExistsException("Username already exists", "Please choose a different username.");
         }
 
-        user.setUsername(updateUsernameDto.getUsername() != null? updateUsernameDto.getUsername() : user.getUsername());
+        user.setUsername(updateUsernameDto.getUsername().trim() != null ? updateUsernameDto.getUsername().trim() : user.getUsername());
         userRepository.save(user);
+
         return TokenResponseDto.builder()
                 .firstName(user.getFirstName())
                 .LastName(user.getLastName())

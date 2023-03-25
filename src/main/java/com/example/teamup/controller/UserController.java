@@ -49,9 +49,8 @@ public class UserController {
     }
 
     @PatchMapping("/update-profile")
-    public ResponseEntity<String> userChangeProfile( @RequestBody UpdateUsernameDto updateUsernameDto){
-        userService.updateProfile(updateUsernameDto);
-        return new ResponseEntity<>("Updated username successfully", HttpStatus.OK);
+    public ResponseEntity<TokenResponseDto> userChangeProfile(@RequestBody UpdateUsernameDto updateUsernameDto){
+        return new ResponseEntity<>(userService.updateProfile(updateUsernameDto), HttpStatus.OK);
     }
 
     @GetMapping("/fetch-username")
