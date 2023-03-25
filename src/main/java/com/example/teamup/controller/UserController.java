@@ -55,7 +55,7 @@ public class UserController {
     }
 
     @GetMapping("/fetch-username")
-    public ResponseEntity<String> getProfileUsername(@Valid @RequestBody UpdateUsernameDto updateUsernameDto){
+    public ResponseEntity<String> getProfileUsername(){
         return new ResponseEntity<>(userService.fetchUsername(), HttpStatus.ACCEPTED);
     }
 

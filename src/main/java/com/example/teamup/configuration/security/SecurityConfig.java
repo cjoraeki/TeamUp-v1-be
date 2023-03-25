@@ -1,6 +1,5 @@
 package com.example.teamup.configuration.security;
 
-import com.example.teamup.exception.CustomAuthenticationEntryPoint;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
