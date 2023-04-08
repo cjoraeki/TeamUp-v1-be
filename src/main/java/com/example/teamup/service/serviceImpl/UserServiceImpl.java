@@ -43,6 +43,8 @@ public class UserServiceImpl implements UserService {
     private final PasswordEncoder passwordEncoder;
 
 
+
+
     @Override
     public SignUpResponseDto signUpWithEmail(SignUpRequestDto signUpRequestDto) {
         Boolean emailExist = userRepository.existsByEmail(signUpRequestDto.getEmail());
@@ -97,7 +99,7 @@ public class UserServiceImpl implements UserService {
 //                "Your OTP for TeamUp account is: " + validOTP + ". \nIt expires in 15 minutes.\n").create();
 
 //        System.out.println(messagePhone.getSid());
-//        System.out.println("Twilio++++++++"+"+234"+ p);
+//        System.out.println("Twilio == +" + "+234" + p);
 
         SignUpResponseDto signUpResponseDto = new SignUpResponseDto();
         BeanUtils.copyProperties(user, signUpResponseDto);
